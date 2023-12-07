@@ -60,7 +60,7 @@ if api_response.status_code == 200:
         print(f"record: {record}")
         # print(f"formatted_data: {formatted_data}")
         producer.produce(kafka_topic, key='key', value=json.dumps(record), callback=delivery_report)
-        time.sleep(10)
+        # time.sleep(10)
 
     # Write the JSON data to the file
     with open(file_path, 'w') as json_file:
