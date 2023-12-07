@@ -23,6 +23,7 @@ latest_timestamp = None
 
 class FileEventHandler(FileSystemEventHandler):
     def on_created(self, event):
+        print(event.is_directory)
         if event.is_directory:
             return
 
@@ -30,6 +31,7 @@ class FileEventHandler(FileSystemEventHandler):
         file_timestamp = extract_timestamp_from_file(file_path)
 
         global latest_timestamp
+        print(f"latest_timestamp: {latest_timestamp}")
         if latest_timestamp is None or file_timestamp > latest_timestamp:
             # New file found
             latest_timestamp = file_timestamp
@@ -56,11 +58,32 @@ def delivery_report(err, msg):
 
 
 def send_file_to_kafka(file_path):
-    with open(file_path, 'rb') as data_file:
-        crypto_binance_data = json.loads(data_file.read())
-        for sym in crypto_binance_data:
-            formatted_data = format_data_to_send(sym, file_path)
-            producer.produce(kafka_topic, key='key', value=formatted_data, callback=delivery_report)
+    print(file_path)
+    # with open(file_path, 'r') as file:
+    #     json_string = file.read()   
+    # print(type(json_string))
+    # data = json.loads(json_string)
+    # print(type(data))
+    buffer_size = 8192  # Set your desired buffer size
+
+    with open('your_large_file.txt', 'rb') as file:
+        while True:
+            chunk = file.read(buffer_size)
+            if not chunk:
+                break 
+            for sym in chunk:
+                print(sym)
+                print(type(sym))
+                formatted_data = format_data_to_send(sym, file_path)
+                producer.produce(kafka_topic, key='key', value=formatted_data, callback=delivery_report)
+    # with open(file_path, 'r') as data_file:
+    #     crypto_binance_data = json.load(data_file)
+    #     print(type(crypto_binance_data))
+        # for sym in crypto_binance_data:
+        #     print(sym)
+        #     print(type(sym))
+        #     formatted_data = format_data_to_send(sym, file_path)
+        #     producer.produce(kafka_topic, key='key', value=formatted_data, callback=delivery_report)
 
 
 def format_data_to_send(data, filename):

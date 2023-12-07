@@ -1,16 +1,16 @@
 version: '2'
 services:
-  timescaledb:
-    image: timescale/timescaledb:latest-pg13
-    container_name: timescaledb
-    environment:
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
-      POSTGRES_DB: mydatabase
-    volumes:
-      - init.sql:/docker-entrypoint-initdb.d/init.sql
-    ports:
-      - "5432:5432"
+  # timescaledb:
+  #   image: timescale/timescaledb:latest-pg13
+  #   container_name: timescaledb
+  #   environment:
+  #     POSTGRES_USER: myuser
+  #     POSTGRES_PASSWORD: mypassword
+  #     POSTGRES_DB: mydatabase
+  #   volumes:
+  #     - /docker-images/init.sql:/docker-entrypoint-initdb.d/init.sql
+  #   ports:
+  #     - "5432:5432"
 
   zookeeper:
     image: wurstmeister/zookeeper:latest
@@ -34,14 +34,14 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0
-    environment:
-      - discovery.type=single-node
-    ports:
-      - "9200:9200"
+  # elasticsearch:
+  #   image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0
+  #   environment:
+  #     - discovery.type=single-node
+  #   ports:
+  #     - "9200:9200"
 
-  kibana:
+  # kibana:
     image: docker.elastic.co/kibana/kibana:7.10.0
     ports:
       - "5601:5601"
