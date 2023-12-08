@@ -55,12 +55,16 @@ def delivery_report(err, msg):
         print('Message delivered to {} [{}]'.format(msg.topic(), msg.partition()))
 
 
+def push_to_kafka(kafka_producer, topic, formatted_data):
+    kafka_producer.produce(topic, value=formatted_data, callback=delivery_report)
+
 def send_file_to_kafka(file_path):
-    with open(file_path, 'rb') as data_file:
+    with open(file=file_path) as data_file:
         crypto_binance_data = json.loads(data_file.read())
         for sym in crypto_binance_data:
             formatted_data = format_data_to_send(sym, file_path)
-            producer.produce(kafka_topic, key='key', value=formatted_data, callback=delivery_report)
+            push_to_kafka(producer, kafka_topic, formatted_data)
+            
 
 
 def format_data_to_send(data, filename):
