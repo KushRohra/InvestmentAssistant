@@ -4,9 +4,11 @@ services:
     image: timescale/timescaledb:latest-pg13
     container_name: timescaledb
     environment:
-      POSTGRES_USER: timescale
-      POSTGRES_PASSWORD: timesclae
-      POSTGRES_DB: crypto_trading_data
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
     networks:

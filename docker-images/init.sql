@@ -1,7 +1,7 @@
 -- init.sql
 
 -- Create a database
-CREATE DATABASE IF NOT EXISTS crypto_trading_data;
+CREATE DATABASE IF NOT EXISTS mydatabase;
 
 -- Connect to the newly created database
 \c mydatabase;
